@@ -1,4 +1,6 @@
 {
+    "name": "famelo/content-targeting",
+    "type": "typo3-cms-extension",
     "autoload": {
         "psr-4": {
             "Famelo\\ContentTargeting\\": "Classes"
