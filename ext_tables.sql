@@ -1,0 +1,140 @@
+#
+# Table structure for table 'tx_contenttargeting_persona'
+#
+CREATE TABLE tx_contenttargeting_persona (
+	uid int(11) NOT NULL auto_increment,
+
+	cookie_id varchar(255) DEFAULT '' NOT NULL,
+
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+
+	PRIMARY KEY (uid)
+);
+
+#
+# Table structure for table 'tx_contenttargeting_persona'
+#
+CREATE TABLE tx_contenttargeting_persona_interests (
+	uid int(11) NOT NULL auto_increment,
+
+	persona_uid int(11) NOT NULL default NULL,
+	category_uid int(11) NOT NULL default NULL,
+	weight int(5) NOT NULL default '0',
+
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+
+	PRIMARY KEY (uid)
+);
+#
+# Table structure for table 'tx_contenttargeting_targets'
+#
+CREATE TABLE tx_contenttargeting_targets (
+
+	uid int(11) NOT NULL auto_increment,
+	foreign_table varchar(255) NOT NULL default '',
+	foreign_uid int(11) NOT NULL default NULL,
+	`cat_1` int(1) NOT NULL DEFAULT '0',
+	`cat_2` int(1) NOT NULL DEFAULT '0',
+	`cat_3` int(1) NOT NULL DEFAULT '0',
+	`cat_4` int(1) NOT NULL DEFAULT '0',
+	`cat_5` int(1) NOT NULL DEFAULT '0',
+	`cat_6` int(1) NOT NULL DEFAULT '0',
+	`cat_7` int(1) NOT NULL DEFAULT '0',
+	`cat_8` int(1) NOT NULL DEFAULT '0',
+	`cat_9` int(1) NOT NULL DEFAULT '0',
+	`cat_10` int(1) NOT NULL DEFAULT '0',
+	`cat_11` int(1) NOT NULL DEFAULT '0',
+	`cat_12` int(1) NOT NULL DEFAULT '0',
+	`cat_13` int(1) NOT NULL DEFAULT '0',
+	`cat_14` int(1) NOT NULL DEFAULT '0',
+	`cat_15` int(1) NOT NULL DEFAULT '0',
+	`cat_16` int(1) NOT NULL DEFAULT '0',
+	`cat_17` int(1) NOT NULL DEFAULT '0',
+	`cat_18` int(1) NOT NULL DEFAULT '0',
+	`cat_19` int(1) NOT NULL DEFAULT '0',
+	`cat_20` int(1) NOT NULL DEFAULT '0',
+	`cat_21` int(1) NOT NULL DEFAULT '0',
+	`cat_22` int(1) NOT NULL DEFAULT '0',
+	`cat_23` int(1) NOT NULL DEFAULT '0',
+	`cat_24` int(1) NOT NULL DEFAULT '0',
+	`cat_25` int(1) NOT NULL DEFAULT '0',
+	`cat_26` int(1) NOT NULL DEFAULT '0',
+	`cat_27` int(1) NOT NULL DEFAULT '0',
+	`cat_28` int(1) NOT NULL DEFAULT '0',
+	`cat_29` int(1) NOT NULL DEFAULT '0',
+	`cat_30` int(1) NOT NULL DEFAULT '0',
+	`cat_31` int(1) NOT NULL DEFAULT '0',
+	`cat_32` int(1) NOT NULL DEFAULT '0',
+	`cat_33` int(1) NOT NULL DEFAULT '0',
+	`cat_34` int(1) NOT NULL DEFAULT '0',
+	`cat_35` int(1) NOT NULL DEFAULT '0',
+	`cat_36` int(1) NOT NULL DEFAULT '0',
+	`cat_37` int(1) NOT NULL DEFAULT '0',
+	`cat_38` int(1) NOT NULL DEFAULT '0',
+	`cat_39` int(1) NOT NULL DEFAULT '0',
+	`cat_40` int(1) NOT NULL DEFAULT '0',
+	`cat_41` int(1) NOT NULL DEFAULT '0',
+	`cat_42` int(1) NOT NULL DEFAULT '0',
+	`cat_43` int(1) NOT NULL DEFAULT '0',
+	`cat_44` int(1) NOT NULL DEFAULT '0',
+	`cat_45` int(1) NOT NULL DEFAULT '0',
+	`cat_46` int(1) NOT NULL DEFAULT '0',
+	`cat_47` int(1) NOT NULL DEFAULT '0',
+	`cat_48` int(1) NOT NULL DEFAULT '0',
+	`cat_49` int(1) NOT NULL DEFAULT '0',
+	`cat_50` int(1) NOT NULL DEFAULT '0',
+	`cat_51` int(1) NOT NULL DEFAULT '0',
+	`cat_52` int(1) NOT NULL DEFAULT '0',
+	`cat_53` int(1) NOT NULL DEFAULT '0',
+	`cat_54` int(1) NOT NULL DEFAULT '0',
+	`cat_55` int(1) NOT NULL DEFAULT '0',
+	`cat_56` int(1) NOT NULL DEFAULT '0',
+	`cat_57` int(1) NOT NULL DEFAULT '0',
+	`cat_58` int(1) NOT NULL DEFAULT '0',
+	`cat_59` int(1) NOT NULL DEFAULT '0',
+	`cat_60` int(1) NOT NULL DEFAULT '0',
+	`cat_61` int(1) NOT NULL DEFAULT '0',
+	`cat_62` int(1) NOT NULL DEFAULT '0',
+	`cat_63` int(1) NOT NULL DEFAULT '0',
+	`cat_64` int(1) NOT NULL DEFAULT '0',
+	`cat_65` int(1) NOT NULL DEFAULT '0',
+	`cat_66` int(1) NOT NULL DEFAULT '0',
+	`cat_67` int(1) NOT NULL DEFAULT '0',
+	`cat_68` int(1) NOT NULL DEFAULT '0',
+	`cat_69` int(1) NOT NULL DEFAULT '0',
+	`cat_70` int(1) NOT NULL DEFAULT '0',
+	`cat_71` int(1) NOT NULL DEFAULT '0',
+	`cat_72` int(1) NOT NULL DEFAULT '0',
+	`cat_73` int(1) NOT NULL DEFAULT '0',
+	`cat_74` int(1) NOT NULL DEFAULT '0',
+	`cat_75` int(1) NOT NULL DEFAULT '0',
+	`cat_76` int(1) NOT NULL DEFAULT '0',
+	`cat_77` int(1) NOT NULL DEFAULT '0',
+	`cat_78` int(1) NOT NULL DEFAULT '0',
+	`cat_79` int(1) NOT NULL DEFAULT '0',
+	`cat_80` int(1) NOT NULL DEFAULT '0',
+	`cat_81` int(1) NOT NULL DEFAULT '0',
+	`cat_82` int(1) NOT NULL DEFAULT '0',
+	`cat_83` int(1) NOT NULL DEFAULT '0',
+	`cat_84` int(1) NOT NULL DEFAULT '0',
+	`cat_85` int(1) NOT NULL DEFAULT '0',
+	`cat_86` int(1) NOT NULL DEFAULT '0',
+	`cat_87` int(1) NOT NULL DEFAULT '0',
+	`cat_88` int(1) NOT NULL DEFAULT '0',
+	`cat_89` int(1) NOT NULL DEFAULT '0',
+	`cat_90` int(1) NOT NULL DEFAULT '0',
+	`cat_91` int(1) NOT NULL DEFAULT '0',
+	`cat_92` int(1) NOT NULL DEFAULT '0',
+	`cat_93` int(1) NOT NULL DEFAULT '0',
+	`cat_94` int(1) NOT NULL DEFAULT '0',
+	`cat_95` int(1) NOT NULL DEFAULT '0',
+	`cat_96` int(1) NOT NULL DEFAULT '0',
+	`cat_97` int(1) NOT NULL DEFAULT '0',
+	`cat_98` int(1) NOT NULL DEFAULT '0',
+	`cat_99` int(1) NOT NULL DEFAULT '0',
+	`cat_100` int(1) NOT NULL DEFAULT '0',
+
+	PRIMARY KEY (uid)
+);
