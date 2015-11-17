@@ -1,5 +1,6 @@
-<?php 
+<?php
 namespace Famelo\ContentTargeting\Controller;
+use Famelo\ContentTargeting\Core;
 
 /***************************************************************
  *
@@ -34,8 +35,9 @@ class StandardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
      * @return void
      */
     public function indexAction() {
+        var_dump(Core::getPersona(TRUE));
     }
-    
+
     /**
      * @return void
      */
