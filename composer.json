@@ -1,5 +1,6 @@
 {
     "name": "famelo/content_targeting",
+    "description": "wtf",
     "type": "typo3-cms-extension",
     "autoload": {
         "psr-4": {
