@@ -1,5 +1,5 @@
 {
-    "name": "famelo/content-targeting",
+    "name": "famelo/content_targeting",
     "type": "typo3-cms-extension",
     "autoload": {
         "psr-4": {

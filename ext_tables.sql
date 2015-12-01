@@ -5,6 +5,7 @@ CREATE TABLE tx_contenttargeting_persona (
 	uid int(11) NOT NULL auto_increment,
 
 	cookie_id varchar(255) DEFAULT '' NOT NULL,
+	tracking int(1) NOT NULL DEFAULT '1',
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
