@@ -228,9 +228,14 @@ class Core {
 		}
 		$sortedItems = array();
 		foreach ($sortedTargets as $sortedTarget) {
-			$sortedItems[] = $itemMap[$sortedTarget['foreign_uid']];
+			$itemMap[$sortedTarget['foreign_uid']]['weight'] = $sortedTarget['weight'];
 		}
-		return $sortedItems;
+
+		usort($itemMap, function($left, $right) {
+			return $left['weight'] < $right['weight'];
+		});
+
+		return $itemMap;
 	}
 
 	public static function getWeight($uid, $tableName) {
