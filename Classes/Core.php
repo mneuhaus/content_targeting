@@ -278,6 +278,10 @@ class Core {
 			$interests[] = '(tx_contenttargeting_targets.cat_' . $interest['category']['uid'] . ' * ' . $interest['weight'] . ')';
 		}
 
+		if (empty($interests)) {
+			$interests[] = '(1)';
+		}
+
 		if ($categories !== NULL) {
 			$groups = explode('|', $categories);
 			$conditions = array();
