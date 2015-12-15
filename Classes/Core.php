@@ -283,23 +283,26 @@ class Core {
 		}
 
 		if ($categories !== NULL) {
-			$groups = explode('|', $categories);
-			$conditions = array();
-			foreach ($groups as $group) {
-				$parts = explode(',', $group);
-				$queryGroup = array();
-				foreach ($parts as $part) {
-					$queryGroup[] = 'tx_contenttargeting_targets.cat_' . $part . ' = 1';
-				}
-				$conditions[] = '(' . implode(' OR ', $queryGroup) . ')';
-			}
+			$whereConditions = array();
+			$logicalOrConditions = explode('OR', $categories);
+			foreach ($logicalOrConditions as $logicalOrCondition) {
+				$logicalOrCondition = trim($logicalOrCondition, ' ()');
+				$logicalAndConditions = explode('AND', $logicalOrCondition);
 
-			$where .= chr(10) . ' AND (' . implode(chr(10) . ' OR ', $conditions) . ')';
+				$whereCondition = array();
+				foreach ($logicalAndConditions as $logicalAndCondition) {
+					$whereCondition[] = 'tx_contenttargeting_targets.cat_' . trim($logicalAndCondition) . ' = 1';
+				}
+
+				$whereConditions[] = '(' . implode(' AND ', $whereCondition) . ')';
+			}
+			$where .= ' AND (' . implode(' OR ', $whereConditions) . ')';
 		}
 
 		$where .= $GLOBALS['TSFE']->cObj->enableFields($table);
 
-		return $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+		// $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = 1;
+		$results = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			$table . '.* , (' . implode(' + ', $interests) . ') as weight',
 			$table . ', tx_contenttargeting_targets',
 			$where,
@@ -307,6 +310,9 @@ class Core {
 			'weight DESC',
 			$offset . ',' . $limit
 		);
+		// echo $GLOBALS['TYPO3_DB']->debug_lastBuiltQuery;
+
+		return $results;
 	}
 
 	public static function stopTracking() {
