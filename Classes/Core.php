@@ -205,6 +205,7 @@ class Core {
 		} else {
 			$personaId = uniqid();
 		}
+		$personaId = uniqid();
 
 		$GLOBALS['TSFE']->fe_user->setKey('ses', 'content-targeting', $personaId);
 		return $personaId;
@@ -218,21 +219,27 @@ class Core {
 
 		$uids = array();
 		$itemMap = array();
+		$maxSorting = 0;
 		foreach ($items as $item) {
 			$uids[] = $item[$uidField];
 			$itemMap[$item[$uidField]] = $item;
+			if ($itemMap[$item[$uidField]]['sorting'] > $maxSorting) {
+				$maxSorting = $itemMap[$item[$uidField]]['sorting'];
+			}
 		}
-		$sortedTargets = static::findTargets('foreign_table = "' . $tableName . '" AND foreign_uid IN (' . implode(',', $uids) . ')');
+		$sortedTargets = static::findTargets('foreign_table = "' . $tableName . '" AND foreign_uid IN (' . implode(',', $uids) . ')', 30, 0, $tableName);
 		if ($sortedTargets === NULL) {
 			return $items;
 		}
 		$sortedItems = array();
-		foreach ($sortedTargets as $sortedTarget) {
-			$itemMap[$sortedTarget['foreign_uid']]['weight'] = $sortedTarget['weight'];
+		foreach ($sortedTargets as $key => $sortedTarget) {
+			$itemMap[$sortedTarget['foreign_uid']]['sorting'] = $maxSorting + $key;
 		}
+		// var_dump($itemMap);
+		// exit();
 
 		usort($itemMap, function($left, $right) {
-			return $left['weight'] < $right['weight'];
+			return $left['sorting'] < $right['sorting'];
 		});
 
 		return $itemMap;
@@ -246,23 +253,27 @@ class Core {
 		}
 	}
 
-	public static function findTargets($where = '1=1', $limit = 10, $offset = 0) {
+	public static function findTargets($where = '1=1', $limit = 10, $offset = 0, $foreignSortByTable = NULL) {
 		$persona = static::getPersona(TRUE);
-		$interests = array();
+		$interests = array('1');
 		// $explain = array();
 		foreach ($persona['interests'] as $interest) {
 			$interests[] = '(cat_' . $interest['category']['uid'] . ' * ' . $interest['weight'] . ')';
 			// $explain[] = '(cat_' . $interest['category']['uid'] . ' * ' . $interest['weight'] . ') as cat_' . $interest['category']['uid'] . '_sum';
 		}
 
-		return $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-			'uid, foreign_uid, foreign_table, (' . implode(' + ', $interests) . ') as weight',
-			'tx_contenttargeting_targets',
-			$where,
+		// $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = 1;
+		$results = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+			'tx_contenttargeting_targets.uid, foreign_uid, foreign_table, (' . implode(' + ', $interests) . ') as weight',
+			'tx_contenttargeting_targets' . ($foreignSortByTable !== NULL ? ',' . $foreignSortByTable : ''),
+			$where . ($foreignSortByTable !== NULL ? ' AND foreign_uid = ' . $foreignSortByTable . '.uid' : ''),
 			'',
-			'weight DESC',
+			'weight DESC' . ($foreignSortByTable !== NULL ? ' , ' . $foreignSortByTable . '.sorting DESC' : ''),
 			$offset . ',' . $limit
 		);
+		// echo $GLOBALS['TYPO3_DB']->debug_lastBuiltQuery;
+		// exit();
+		return $results;
 	}
 
 	public static function getTableRows($categories, $table, $where, $limit = 10, $offset = 0) {
