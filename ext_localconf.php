@@ -11,11 +11,11 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['proc
 	'Famelo.' . $_EXTKEY,
 	'persona',
 	array (
-	  'Standard' => 'index,reset',
+	  'Standard' => 'index,reset,stopTracking,resumeTracking',
 	),
 	// non-cacheable actions
 	array (
-	  'Standard' => 'index,reset',
+	  'Standard' => 'index,reset,stopTracking,resumeTracking',
 	)
 );
 

@@ -35,13 +35,31 @@ class StandardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
      * @return void
      */
     public function indexAction() {
-        var_dump(Core::getPersona(TRUE));
+        $this->view->assign('persona', Core::getPersona(TRUE));
     }
 
     /**
      * @return void
      */
     public function resetAction() {
+        Core::resetTracking();
+        $this->redirect('index');
+    }
+
+    /**
+     * @return void
+     */
+    public function stopTrackingAction() {
+        Core::stopTracking();
+        $this->redirect('index');
+    }
+
+    /**
+     * @return void
+     */
+    public function resumeTrackingAction() {
+        Core::resumeTracking();
+        $this->redirect('index');
     }
 
 }

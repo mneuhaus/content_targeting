@@ -1,0 +1,26 @@
+<f:if condition="{persona.tracking}">
+	<f:then>
+		<div class="row">
+			<div class="col-sm-8">
+				Die Personalisierung ist aktuell <strong class="text-blue">aktiv</strong>, klicken Sie hier um die Personalisierung zu <strong class="text-blue">deaktivieren</strong>:
+			</div>
+			<div class="col-sm-4">
+				<f:link.action action="stopTracking" class="btn btn-default btn-blue">
+					Personalisierung deaktivieren
+				</f:link.action>
+			</div>
+		</div>
+	</f:then>
+	<f:else>
+		<div class="row">
+			<div class="col-sm-8">
+				Die Personalisierung ist aktuell <strong class="text-blue">inaktiv</strong>, klicken Sie hier um die Personalisierung zu <strong class="text-blue">aktivieren</strong>.
+			</div>
+			<div class="col-sm-4">
+				<f:link.action action="resumeTracking" class="btn btn-default btn-blue">
+					Personalisierung aktivieren
+				</f:link.action>
+			</div>
+		</div>
+	</f:else>
+</f:if>

@@ -205,7 +205,6 @@ class Core {
 		} else {
 			$personaId = uniqid();
 		}
-		$personaId = uniqid();
 
 		$GLOBALS['TSFE']->fe_user->setKey('ses', 'content-targeting', $personaId);
 		return $personaId;
@@ -337,7 +336,7 @@ class Core {
 		);
 	}
 
-	public static function startTracking() {
+	public static function resumeTracking() {
 		$persona = static::getPersona();
 		$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
 			'tx_contenttargeting_persona',
