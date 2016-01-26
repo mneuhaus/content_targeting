@@ -255,13 +255,10 @@ class Core {
 	public static function findTargets($where = '1=1', $limit = 10, $offset = 0, $foreignSortByTable = NULL) {
 		$persona = static::getPersona(TRUE);
 		$interests = array('1');
-		// $explain = array();
 		foreach ($persona['interests'] as $interest) {
 			$interests[] = '(cat_' . $interest['category']['uid'] . ' * ' . $interest['weight'] . ')';
-			// $explain[] = '(cat_' . $interest['category']['uid'] . ' * ' . $interest['weight'] . ') as cat_' . $interest['category']['uid'] . '_sum';
 		}
 
-		// $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = 1;
 		$results = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'tx_contenttargeting_targets.uid, foreign_uid, foreign_table, (' . implode(' + ', $interests) . ') as weight',
 			'tx_contenttargeting_targets' . ($foreignSortByTable !== NULL ? ',' . $foreignSortByTable : ''),
@@ -270,12 +267,10 @@ class Core {
 			'weight DESC' . ($foreignSortByTable !== NULL ? ' , ' . $foreignSortByTable . '.sorting DESC' : ''),
 			$offset . ',' . $limit
 		);
-		// echo $GLOBALS['TYPO3_DB']->debug_lastBuiltQuery;
-		// exit();
 		return $results;
 	}
 
-	public static function getTableRows($categories, $table, $where, $limit = 10, $offset = 0) {
+	public static function getTableRows($categories, $table, $where, $limit = 10, $offset = 0, $orderBy = 'weight DESC') {
 		if ($where === NULL) {
 			$where = '1=1';
 		}
@@ -317,7 +312,7 @@ class Core {
 			$table . ', tx_contenttargeting_targets',
 			$where,
 			'',
-			'weight DESC',
+			$orderBy,
 			$offset . ',' . $limit
 		);
 		// echo $GLOBALS['TYPO3_DB']->debug_lastBuiltQuery;
