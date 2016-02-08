@@ -279,8 +279,10 @@ class Core {
 
 		$persona = static::getPersona(TRUE);
 		$interests = array();
-		foreach ($persona['interests'] as $interest) {
-			$interests[] = '(tx_contenttargeting_targets.cat_' . $interest['category']['uid'] . ' * ' . $interest['weight'] . ')';
+		if (is_array($persona['interests'])) {
+			foreach ($persona['interests'] as $interest) {
+				$interests[] = '(tx_contenttargeting_targets.cat_' . $interest['category']['uid'] . ' * ' . $interest['weight'] . ')';
+			}
 		}
 
 		if (empty($interests)) {
