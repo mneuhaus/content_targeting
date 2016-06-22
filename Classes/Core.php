@@ -274,14 +274,17 @@ class Core {
 		if ($where === NULL) {
 			$where = '1=1';
 		}
-
+		$tables = explode(',', $table);
+		$table = $tables[0];
 		$where .= ' AND ' . $table . '.uid = tx_contenttargeting_targets.foreign_uid AND tx_contenttargeting_targets.foreign_table = "' . $table . '"';
 
 		$persona = static::getPersona(TRUE);
 		$interests = array();
+		$categoryCount = [];
 		if (is_array($persona['interests'])) {
 			foreach ($persona['interests'] as $interest) {
-				$interests[] = '(tx_contenttargeting_targets.cat_' . $interest['category']['uid'] . ' * ' . $interest['weight'] . ')';
+				$interests[] = '( LOG(1 + (tx_contenttargeting_targets.cat_' . $interest['category']['uid'] . ' * ' . $interest['weight'] . ')) )';
+				$categoryCount[] = 'tx_contenttargeting_targets.cat_' . $interest['category']['uid'];
 			}
 		}
 
@@ -306,18 +309,21 @@ class Core {
 			$where .= ' AND (' . implode(' OR ', $whereConditions) . ')';
 		}
 
-		$where .= $GLOBALS['TSFE']->cObj->enableFields($table);
+		foreach($tables as $tableName) {
+			$where .= $GLOBALS['TSFE']->cObj->enableFields(trim($tableName));
+		}
 
-		// $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = 1;
+//		$GLOBALS['TYPO3_DB']->store_lastBuiltQuery = 1;
 		$results = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			$table . '.* , (' . implode(' + ', $interests) . ') as weight',
-			$table . ', tx_contenttargeting_targets',
+			implode(', ', $tables) . ', tx_contenttargeting_targets',
 			$where,
 			'',
 			$orderBy,
 			$offset . ',' . $limit
 		);
-		// echo $GLOBALS['TYPO3_DB']->debug_lastBuiltQuery;
+//		echo $GLOBALS['TYPO3_DB']->debug_lastBuiltQuery;
+//		exit();
 
 		return $results;
 	}
