@@ -15,6 +15,11 @@ class Core {
 	 */
 	protected static $targets = array();
 
+    /**
+     * @var array()
+     */
+    protected static $runtimeCache = array();
+
 	public static function registerTarget($tableName, $fiedName) {
 		static::$targets[] = array(
 			'tableName' => $tableName,
@@ -159,44 +164,51 @@ class Core {
 	}
 
 	public static function getPersona($includeInterests = FALSE) {
-		/** @var $db DatabaseConnection */
-		$db = $GLOBALS['TYPO3_DB'];
-		$cookie = static::getPersonaId();
-		$row = $db->exec_SELECTgetSingleRow(
-			'*',
-			'tx_contenttargeting_persona',
-			'
+        $cookie = static::getPersonaId();
+
+        $cacheKey = 'persona.' . $cookie . '.' . ($includeInterests ? 'with-interests' : 'without-interests');
+
+        if (!isset(self::$runtimeCache[$cacheKey])) {
+            /** @var $db DatabaseConnection */
+            $db = $GLOBALS['TYPO3_DB'];
+            $row = $db->exec_SELECTgetSingleRow(
+                '*',
+                'tx_contenttargeting_persona',
+                '
 				cookie_id = "' . $cookie . '"
 			'
-		);
-		if ($row === FALSE) {
-			$db->exec_INSERTquery('tx_contenttargeting_persona', array(
-				'cookie_id' => $cookie,
-				'tstamp' => time(),
-				'crdate' => time()
-			));
-			$row = $db->exec_SELECTgetSingleRow(
-				'*',
-				'tx_contenttargeting_persona',
-				'
+            );
+            if ($row === FALSE) {
+                $db->exec_INSERTquery('tx_contenttargeting_persona', array(
+                    'cookie_id' => $cookie,
+                    'tstamp' => time(),
+                    'crdate' => time()
+                ));
+                $row = $db->exec_SELECTgetSingleRow(
+                    '*',
+                    'tx_contenttargeting_persona',
+                    '
 					cookie_id = "' . $cookie . '"
 				'
-			);
-		} else if ($includeInterests) {
-			$interests = $db->exec_SELECTgetRows('*', 'tx_contenttargeting_persona_interests', '
+                );
+            } else if ($includeInterests) {
+                $interests = $db->exec_SELECTgetRows('*', 'tx_contenttargeting_persona_interests', '
 				persona_uid = "' . $row['uid'] . '"
 			');
-			$row['interests'] = array();
-			foreach ($interests as $interest) {
-				$interest['category'] = $db->exec_SELECTgetSingleRow(
-					'*',
-					'sys_category',
-					'uid = "' . $interest['category_uid'] . '"'
-				);
-				$row['interests'][$interest['category_uid']] = $interest;
-			}
-		}
-		return $row;
+                $row['interests'] = array();
+                foreach ($interests as $interest) {
+                    $interest['category'] = $db->exec_SELECTgetSingleRow(
+                        '*',
+                        'sys_category',
+                        'uid = "' . $interest['category_uid'] . '"'
+                    );
+                    $row['interests'][$interest['category_uid']] = $interest;
+                }
+            }
+            self::$runtimeCache[$cacheKey] = $row;
+        }
+
+        return self::$runtimeCache[$cacheKey];
 	}
 
 	public static function getPersonaId() {
