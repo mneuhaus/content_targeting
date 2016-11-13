@@ -19,8 +19,8 @@ CREATE TABLE tx_contenttargeting_persona (
 CREATE TABLE tx_contenttargeting_persona_interests (
 	uid int(11) NOT NULL auto_increment,
 
-	persona_uid int(11) NOT NULL default NULL,
-	category_uid int(11) NOT NULL default NULL,
+	persona_uid int(11) NOT NULL default '0',
+	category_uid int(11) NOT NULL default '0',
 	weight int(5) NOT NULL default '0',
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE tx_contenttargeting_targets (
 
 	uid int(11) NOT NULL auto_increment,
 	foreign_table varchar(255) NOT NULL default '',
-	foreign_uid int(11) NOT NULL default NULL,
+	foreign_uid int(11) NOT NULL default '0',
 	`cat_1` int(1) NOT NULL DEFAULT '0',
 	`cat_2` int(1) NOT NULL DEFAULT '0',
 	`cat_3` int(1) NOT NULL DEFAULT '0',
