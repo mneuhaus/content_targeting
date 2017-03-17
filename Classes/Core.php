@@ -193,8 +193,8 @@ class Core {
                 );
             } else if ($includeInterests) {
                 $interests = $db->exec_SELECTgetRows('*', 'tx_contenttargeting_persona_interests', '
-				persona_uid = "' . $row['uid'] . '"
-			');
+                    persona_uid = "' . $row['uid'] . '"
+                ');
                 $row['interests'] = array();
                 foreach ($interests as $interest) {
                     $interest['category'] = $db->exec_SELECTgetSingleRow(
@@ -267,9 +267,11 @@ class Core {
 	public static function findTargets($where = '1=1', $limit = 10, $offset = 0, $foreignSortByTable = NULL) {
 		$persona = static::getPersona(TRUE);
 		$interests = array('1');
-		foreach ($persona['interests'] as $interest) {
-			$interests[] = '(cat_' . $interest['category']['uid'] . ' * ' . $interest['weight'] . ')';
-		}
+		if (isset($persona['interests']) && is_array($persona['interests'])) {
+            foreach ($persona['interests'] as $interest) {
+                $interests[] = '(cat_' . $interest['category']['uid'] . ' * ' . $interest['weight'] . ')';
+            }
+        }
 
 		$results = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'tx_contenttargeting_targets.uid, foreign_uid, foreign_table, (' . implode(' + ', $interests) . ') as weight',

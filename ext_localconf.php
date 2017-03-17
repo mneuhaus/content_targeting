@@ -20,3 +20,22 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['proc
 );
 
 $GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include']['content_targeting'] = 'EXT:content_targeting/Classes/Eid/ContentTargeting.php';
+
+if (!isset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks'][\TYPO3\CMS\Scheduler\Task\TableGarbageCollectionTask::class]['options']['tables'])) {
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks'][\TYPO3\CMS\Scheduler\Task\TableGarbageCollectionTask::class]['options']['tables'] = [];
+}
+
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks'][\TYPO3\CMS\Scheduler\Task\TableGarbageCollectionTask::class]['options']['tables']['tx_contenttargeting_persona'] = [
+    'dateField' => 'tstamp',
+    'expirePeriod' => '90'
+];
+
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks'][\TYPO3\CMS\Scheduler\Task\TableGarbageCollectionTask::class]['options']['tables']['tx_contenttargeting_persona_interests'] = [
+    'dateField' => 'tstamp',
+    'expirePeriod' => '90'
+];
+
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks'][\TYPO3\CMS\Scheduler\Task\TableGarbageCollectionTask::class]['options']['tables']['tx_realurl_errorlog'] = [
+    'dateField' => 'tstamp',
+    'expirePeriod' => '90'
+];
