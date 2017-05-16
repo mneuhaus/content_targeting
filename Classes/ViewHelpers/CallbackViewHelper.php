@@ -28,7 +28,7 @@ class CallbackViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHe
 	 * @return string
 	 */
 	public function render($activityThreshold = 10) {
-		$persona = Core::getPersona(TRUE);
+		$persona = Core::getPersona(false);
 		if ($persona['tracking'] == 0) {
 			return;
 		}
